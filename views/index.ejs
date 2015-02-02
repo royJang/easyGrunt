@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Easy to Grunt</title>
+  <link href="css/etg.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<header class="etg-header">
+  <h2>LALALA<span>v0.1</span></h2>
+</header>
+<main>
+  <nav class="etg-nav">
+    <div>
+      <ul class="etg-nav-list">
+        <li><span class="icon-plus"></span></li>
+        <li><span class="icon-cogs"></span></li>
+      </ul>
+    </div>
+    <div class="etg-project-list">
+      <ul>
+        <li>MyCtrip v6.20<span class="icon-close"></span></li>
+        <li>Invoice<span class="icon-close"></span></li>
+        <li>InvoiceTest<span class="icon-close"></span></li>
+        <li>InvoiceMgr<span class="icon-close"></span></li>
+        <li>MyFavourite<span class="icon-close"></span></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="etg-files-list">
+    <div class="tasks">
+      <button class="addTasks">create tasks</button>
+      <ul>
+        <li></li>
+      </ul>
+    </div>
+    <div class="filesDirection">
+      <span class="currentPath">当前路径：</span>
+      <ul>
+        <script type="x-underscore/x-template" id="pathsTemplate">
+          <li></li>
+        </script>
+      </ul>
+    </div>
+    <div class="drives">
+      <ul>
+        <% for(var i=0,len=drive.length;i<len;i++){ %>
+          <li class="dirvesItem" data-path='<%= drive[i] %>'>
+            <div class="icon-storage"></div>
+            <div class="driveName"><%= drive[i] %></div>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="fileLS">
+        <ul class="filesLists">
+          <script type="x-underscore/x-template" id="filesTemplate">
+            {% if( files && files.length > 0 ){  %}
+              {% files.forEach(function ( el, i, array ){ %}
+                  {% if(el.indexOf("file!") > -1){ %}
+                    <li data-path="{%= el %}">
+                      <span class="icon-folder-open"></span>{%= el.replace("file!","") %}
+                    </li>
+                  {% }else{ %}
+                    <li>
+                      <span class="icon-file"></span>{%= el %}
+                    </li>
+                  {% } %}
+              {%})%}
+            {% } %}
+          </script>
+        </ul>
+    </div>
+  </div>
+</main>
+
+<script src="js/lib/jquery.js"></script>
+<script src="js/lib/underscore.js"></script>
+<script src="js/page.js"></script>
+</body>
+</html>
