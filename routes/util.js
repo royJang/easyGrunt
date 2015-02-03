@@ -6,13 +6,21 @@ var explorer = function ( path, callback ){
 	fs.readdir(path, function ( err, files ){
 		if( err )return callback( err );
 		var len = files.length;
-		files.forEach(function (file,i){
-			fs.stat(path + file, function ( err, stat ){
-				if(err) return;
-				currentFilesList.push( stat.isDirectory() ? "file!"+file : file  );
-				if(len - 1 === i) return callback( null, currentFilesList );
+		if( len > 0 ){
+			files.forEach(function (file,i){
+				fs.stat(path + file, function ( err, stat ){
+					if(err) return;
+					currentFilesList.push( stat.isDirectory() ? "file!"+file : file  );
+					if(len - 1 === i){
+						setTimeout(function (){
+							return callback( null, currentFilesList );
+						},50);
+					}
+				});
 			});
-		});
+		}else{
+			return callback( null , ['文件夹为空，或者没有权限!']);
+		}
 	});
 };
 

@@ -29,24 +29,23 @@
     </div>
   </nav>
   <div class="etg-files-list">
-    <div class="tasks">
-      <button class="addTasks">create tasks</button>
-      <ul>
-        <li></li>
+    <div class="etg-files-nav">
+      <ul class="pathController">
+        <li><i class="icon-arrow-left back"></i></li>
+        <li><i class="icon-arrow-right forward"></i></li>
       </ul>
-    </div>
-    <div class="filesDirection">
-      <span class="currentPath">当前路径：</span>
-      <ul>
-        <script type="x-underscore/x-template" id="pathsTemplate">
-          <li></li>
-        </script>
+      <ul class="currentPathFrame">
+        <li><input type="text" class="currentReallyPath"/></li>
+      </ul>
+      <ul class="pluginList">
+        <li><i class="icon-menu"></i></li>
+        <li><i class="icon-powercord"></i></li>
       </ul>
     </div>
     <div class="drives">
       <ul>
         <% for(var i=0,len=drive.length;i<len;i++){ %>
-          <li class="dirvesItem" data-path='<%= drive[i] %>'>
+          <li class="drivesItem" data-path='<%= drive[i] %>'>
             <div class="icon-storage"></div>
             <div class="driveName"><%= drive[i] %></div>
           </li>
