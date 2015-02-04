@@ -8,7 +8,7 @@
 </head>
 <body>
 <header class="etg-header">
-  <h2>LALALA<span>v0.1</span></h2>
+  <h2>Easy to Grunt<span>v0.1</span></h2>
 </header>
 <main>
   <nav class="etg-nav">
@@ -30,10 +30,6 @@
   </nav>
   <div class="etg-files-list">
     <div class="etg-files-nav">
-      <ul class="pathController">
-        <li><i class="icon-arrow-left back"></i></li>
-        <li><i class="icon-arrow-right forward"></i></li>
-      </ul>
       <ul class="currentPathFrame">
         <li><input type="text" class="currentReallyPath"/></li>
       </ul>
@@ -53,7 +49,8 @@
       </ul>
     </div>
     <div class="fileLS">
-        <ul class="filesLists">
+      <div class="file-pre"><i class="icon-undo"></i></div>
+      <ul class="filesLists">
           <script type="x-underscore/x-template" id="filesTemplate">
             {% if( files && files.length > 0 ){  %}
               {% files.forEach(function ( el, i, array ){ %}
@@ -63,7 +60,16 @@
                     </li>
                   {% }else{ %}
                     <li>
-                      <span class="icon-file"></span>{%= el %}
+                      {% if( /\.(html|htm|ejs|jsp|php|asp|cshtml|jade|xml|json)/i.test( el )){ %}
+                          <span class="icon-file-xml"></span>{%= el %}
+                        </li>
+                      {% }else if ( /\.(css|less|sass|scss|js|coffee|dart)/i.test(el) ){ %}
+                          <span class="icon-file-css"></span>{%= el %}
+                      {% }else if ( /\.(png|jpg|jpeg|gif|bmp|tiff|psd)/i.test(el) ){ %}
+                          <span class="icon-image"></span>{%= el %}
+                      {% }else{ %}
+                          <span class="icon-file"></span>{%= el %}
+                      {% } %}
                     </li>
                   {% } %}
               {%})%}
@@ -74,8 +80,6 @@
   </div>
 </main>
 
-<script src="js/lib/jquery.js"></script>
-<script src="js/lib/underscore.js"></script>
-<script src="js/page.js"></script>
+<script src="js/lib/require.js" data-main="js/main.js"></script>
 </body>
 </html>

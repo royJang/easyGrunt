@@ -19,7 +19,7 @@ var explorer = function ( path, callback ){
 				});
 			});
 		}else{
-			return callback( null , ['文件夹为空，或者没有权限!']);
+			return callback( null , ['文件夹是空哒~']);
 		}
 	});
 };
