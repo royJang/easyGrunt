@@ -1,4 +1,4 @@
-define("index", ['jQuery', 'underscore', 'util', 'variable', 'project' ], function ( jquery, _, Util, v, Project ){
+define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project' ], function ( jquery, _, async, Util, v, Project ){
 
     var util = new Util();
     var project = new Project();
@@ -25,7 +25,7 @@ define("index", ['jQuery', 'underscore', 'util', 'variable', 'project' ], functi
         var projectEvents = function (){
             //移除项目
             $(".removeProject").off("click").on("click", function (){
-                var projectName = $(this).parent().text();
+                var projectName = $(this).parent().find(".projectTitle").text();
                 if(confirm("确定删除 <"+ projectName +"> 吗？")){
                     project.remove(projectName, function( err,data ){
                         if(!err) getProjectList();
@@ -36,7 +36,7 @@ define("index", ['jQuery', 'underscore', 'util', 'variable', 'project' ], functi
             projectListItem.off("click").on("click", function (){
                 var self  = this,cel = $(self);
                 projectListItem.removeClass("active") && cel.addClass("active");
-                project.updateProjectActive($(this).text(),function (err,data){
+                project.updateProjectActive(cel.find(".projectTitle").text(), function (err,data){
                     if(err){
                         prompt.show("获取项目详细信息失败!");
                         cel.removeClass("active");
@@ -45,9 +45,16 @@ define("index", ['jQuery', 'underscore', 'util', 'variable', 'project' ], functi
             });
         };
         var getProjectList = function (){
-            project.getProjectLists(function ( err, data ){
+            return async.series({
+                project : function (callback) {
+                    project.getProjectLists(callback);
+                },
+                active : function (callback) {
+                    project.getProjectActive(callback);
+                }
+            }, function (err, result){
                 util.renderTemplate({
-                    data : {  project : data },
+                    data : {  project : result.project, active : result.active },
                     template : v.projectsTemplate,
                     wrapper : v.projectLists
                 });
@@ -68,7 +75,5 @@ define("index", ['jQuery', 'underscore', 'util', 'variable', 'project' ], functi
     };
 
     projectFn();
-
-
 
 });

@@ -23,9 +23,14 @@
         <script type="x-underscore/x-template" id="projectsTemplate">
           {% if( project && project.length > 0 ){ %}
             {% project.forEach(function ( el, i, array ){ %}
+              {% var path = el.replace("p!",""); %}
               {% if( el.indexOf("p!") > -1 ){ %}
-                <li>
-                  {%= el.replace("p!","") %}
+                {% if( path === active.name  ){ %}
+                  <li class="active">
+                {%}else{%}
+                  <li>
+                {% } %}
+                  <abbr class="projectTitle">{%= path %}</abbr>
                   <span class="icon-close removeProject"></span>
                 </li>
               {% } %}
@@ -41,8 +46,7 @@
         <li><input type="text" class="currentReallyPath"/></li>
       </ul>
       <ul class="pluginList">
-        <li><i class="icon-menu"></i></li>
-        <li><i class="icon-powercord"></i></li>
+        <li><i class="icon-heart2"></i></li>
       </ul>
     </div>
     <div class="drives">

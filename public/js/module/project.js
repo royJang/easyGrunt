@@ -18,18 +18,21 @@ define('project', [ "underscore", "async" , "localforage", "prompt" ], function 
 
 	Project.prototype = {
 		constructor : Project,
+		projectPack : function (name){
+			return "p!" + name;
+		},
 		create : function ( name, callback ){
-			return storage.setItem( "p!" + name, { "name" : name }, function (err, data){
+			return storage.setItem( this.projectPack(name), { "name" : name }, function (err, data){
 				return defaultCallback(err) && callback(err,data);
 			});
 		},
 		remove : function ( name, callback ){
-			return storage.removeItem( name, function (err,data){
+			return storage.removeItem( this.projectPack(name), function (err,data){
 				return defaultCallback(err) && callback(err,data);
 			});
 		},
 		update : function ( name, data, callback ){
-			return storage.setItem( name, data, function (err,data){
+			return storage.setItem( this.projectPack(name), data, function (err,data){
 				return defaultCallback(err) && callback(err,data);
 			});
 		},
@@ -39,9 +42,10 @@ define('project', [ "underscore", "async" , "localforage", "prompt" ], function 
 			});
 		},
 		updateProjectActive : function ( name, callback ){
-			storage.setItem("EG-project-active", { "name" : name } ,function ( err ){
-
-			});
+			storage.setItem("EG-project-active", { "name" : name } ,callback);
+		},
+		getProjectActive : function ( callback ){
+			storage.getItem("EG-project-active",callback);
 		}
 	};
 
