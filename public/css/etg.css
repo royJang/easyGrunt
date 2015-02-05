@@ -339,6 +339,7 @@ body {
   background: #414247;
   padding: 12px;
   border-bottom: 1px solid #282828;
+  cursor: pointer;
 }
 .etg-nav .etg-project-list ul li span {
   float: right;
@@ -347,10 +348,19 @@ body {
   display: none;
   background: #414247 !important;
 }
+.etg-nav .etg-project-list ul li.active {
+  background: #282828;
+}
+.etg-nav .etg-project-list ul li.active span {
+  background: #282828 !important;
+}
+.etg-nav .etg-project-list ul li:hover {
+  background: #282828;
+}
 .etg-nav .etg-project-list ul li:hover span {
   display: block;
   cursor: pointer;
-  background: #282828;
+  background: #282828 !important;
 }
 .etg-files-list {
   position: fixed;
@@ -433,11 +443,26 @@ body {
   color: #0099ff;
 }
 .etg-files-list .fileLS .filesLists li {
-  padding: 5px;
+  padding: 10px;
   cursor: pointer;
+  clear: both;
+  overflow: hidden;
+  font-size: 14px;
+  color: #222;
 }
 .etg-files-list .fileLS .filesLists li:nth-child(2n) {
   background: #e3e3e3;
+}
+.etg-files-list .fileLS .filesLists li .fileName,
+.etg-files-list .fileLS .filesLists li .fileTasks {
+  width: 50%;
+  float: left;
+}
+.etg-files-list .fileLS .filesLists li .fileTasks {
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+  color: #336699;
+  font-size: 14px;
 }
 .etg-files-list .fileLS .filesLists li span {
   padding: 10px;

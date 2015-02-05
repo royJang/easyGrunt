@@ -14,17 +14,24 @@
   <nav class="etg-nav">
     <div>
       <ul class="etg-nav-list">
-        <li><span class="icon-plus"></span></li>
+        <li><span class="icon-plus addProjectBtn"></span></li>
         <li><span class="icon-cogs"></span></li>
       </ul>
     </div>
     <div class="etg-project-list">
-      <ul>
-        <li>MyCtrip v6.20<span class="icon-close"></span></li>
-        <li>Invoice<span class="icon-close"></span></li>
-        <li>InvoiceTest<span class="icon-close"></span></li>
-        <li>InvoiceMgr<span class="icon-close"></span></li>
-        <li>MyFavourite<span class="icon-close"></span></li>
+      <ul class="project-lists">
+        <script type="x-underscore/x-template" id="projectsTemplate">
+          {% if( project && project.length > 0 ){ %}
+            {% project.forEach(function ( el, i, array ){ %}
+              {% if( el.indexOf("p!") > -1 ){ %}
+                <li>
+                  {%= el.replace("p!","") %}
+                  <span class="icon-close removeProject"></span>
+                </li>
+              {% } %}
+            {% }) %}
+          {% } %}
+        </script>
       </ul>
     </div>
   </nav>
@@ -56,22 +63,26 @@
               {% files.forEach(function ( el, i, array ){ %}
                   {% if(el.indexOf("file!") > -1){ %}
                     <li data-path="{%= el %}">
-                      <span class="icon-folder-open"></span>{%= el.replace("file!","") %}
-                    </li>
                   {% }else{ %}
                     <li>
-                      {% if( /\.(html|htm|ejs|jsp|php|asp|cshtml|jade|xml|json)/i.test( el )){ %}
-                          <span class="icon-file-xml"></span>{%= el %}
-                        </li>
-                      {% }else if ( /\.(css|less|sass|scss|js|coffee|dart)/i.test(el) ){ %}
-                          <span class="icon-file-css"></span>{%= el %}
-                      {% }else if ( /\.(png|jpg|jpeg|gif|bmp|tiff|psd)/i.test(el) ){ %}
-                          <span class="icon-image"></span>{%= el %}
-                      {% }else{ %}
-                          <span class="icon-file"></span>{%= el %}
-                      {% } %}
-                    </li>
                   {% } %}
+                      <div class="fileName">
+                        {% if(el.indexOf("file!") > -1){ %}
+                            <span class="icon-folder-open"></span>{%= el.replace("file!","") %}
+                        {% }else if( /\.(html|htm|ejs|jsp|php|asp|cshtml|jade|xml|json)/i.test( el )){ %}
+                            <span class="icon-file-xml"></span>{%= el %}
+                        {% }else if ( /\.(css|less|sass|scss|js|coffee|dart)/i.test(el) ){ %}
+                            <span class="icon-file-css"></span>{%= el %}
+                        {% }else if ( /\.(png|jpg|jpeg|gif|bmp|tiff|psd)/i.test(el) ){ %}
+                            <span class="icon-image"></span>{%= el %}
+                        {% }else{ %}
+                            <span class="icon-file"></span>{%= el %}
+                        {% } %}
+                      </div>
+                      <div class="fileTasks">
+
+                      </div>
+                    </li>
               {%})%}
             {% } %}
           </script>

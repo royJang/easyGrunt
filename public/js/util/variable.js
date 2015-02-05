@@ -8,7 +8,11 @@ define('variable', [ 'jQuery' ], function ( jquery ){
 		pathCtrl : $(".pathController"),
 		back : $(".pathController .back"),
 		forward : $(".pathController .forward"),
-		filePre : $(".file-pre")
+		filePre : $(".file-pre"),
+		addProject : $(".addProjectBtn"),
+		projectsTemplate : $("#projectsTemplate").text(),
+		projectLists : $(".project-lists"),
+		removeProject : $(".removeProject")
 	};
 
 	return v;
