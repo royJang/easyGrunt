@@ -1,0 +1,21 @@
+<div class="etg-project-list">
+	<ul class="project-lists">
+		<script type="x-underscore/x-template" id="projectsTemplate">
+			{% if( project && project.length > 0 ){ %}
+				{% project.forEach(function ( el, i, array ){ %}
+					{% var path = el.replace("p!",""); %}
+					{% if( el.indexOf("p!") > -1 ){ %}
+						{% if( active && path === active.name  ){ %}
+							<li class="active">
+						{%}else{%}
+							<li>
+						{% } %}
+							<abbr class="projectTitle">{%= path %}</abbr>
+							<span class="icon-close removeProject"></span>
+						</li>
+					{% } %}
+				{% }) %}
+			{% } %}
+		</script>
+	</ul>
+</div>

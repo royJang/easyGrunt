@@ -1,25 +1,46 @@
-define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project' ], function ( jquery, _, async, Util, v, Project ){
+define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project', 'file', 'address', 'prompt' ], function ( jquery, _, async, Util, v, Project, File, Address, Prompt ){
 
     var util = new Util();
+    var file = new File();
     var project = new Project();
+    var address = new Address();
+    var prompt = new Prompt();
 
     var jump = function ( url ){
-        v.currentReallyPath.val( url );
-        util.getFileList( url );
+       address.set(url) && file.getFileList( url );
     };
-    //地址栏按回车
+
+    //获取项目收藏的地址，直接跳转至工作目录
+    var jumpToProjectUrl = function (text){
+        project.getProjectUrl(text, function (err,a){
+            jump(a);
+        });
+    };
+
+    //地址栏按回车,跳转至响应目录
     $(document).on("keyup",function (e){
-        if(e.which === 13){
-            jump(v.currentReallyPath.val());
-        }
+        if(e.which === 13) jump(address.get());
     });
 
-    //上一级
+    //上一级按钮
     v.filePre.on("click",function (){
         jump($(this).attr("data-path"));
     });
 
-    util.reset();
+    //绑定事件
+    file.reBind();
+
+    var addressFn = function (){
+        $(".icon-heart2").on("click", function (){
+            address.love(function (err,data){
+                if(err) return prompt.show("收藏失败..");
+                prompt.show("收藏成功！");
+            });
+        });
+        $(".icon-heart").on("click", function (){
+
+        });
+    };
 
     var projectFn = function (){
         var projectEvents = function (){
@@ -33,24 +54,29 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
                 }
             });
             var projectListItem = $(".project-lists").find("li");
+            //项目切换
             projectListItem.off("click").on("click", function (){
-                var self  = this,cel = $(self);
+                var self  = this,
+                    cel = $(self),
+                    text = cel.find(".projectTitle").text();
                 projectListItem.removeClass("active") && cel.addClass("active");
-                project.updateProjectActive(cel.find(".projectTitle").text(), function (err,data){
+                project.updateProjectActive(text, function (err,data){
                     if(err){
                         prompt.show("获取项目详细信息失败!");
                         cel.removeClass("active");
+                        return;
                     }
+                    jumpToProjectUrl(text);
                 });
             });
         };
         var getProjectList = function (){
             return async.series({
                 project : function (callback) {
-                    project.getProjectLists(callback);
+                    project.getProjectLists( callback );
                 },
                 active : function (callback) {
-                    project.getProjectActive(callback);
+                    project.getProjectActive( callback );
                 }
             }, function (err, result){
                 util.renderTemplate({
@@ -62,11 +88,11 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
             });
         };
         v.addProject.off("click").on("click", function (){
-            var result = prompt("请输入新建项目名称：");
+            var result = window.prompt("请输入新建项目名称：");
             if(result){
-                if( result.length == 0 ) result = "easy to Grunt";
+                if( result.length === 0 ) result = "easy to Grunt";
                 project.create(result,function ( err,data) {
-                    if (!err) getProjectList();
+                    if (!err) getProjectList(function (){});
                 });
             }
         });
@@ -75,5 +101,6 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
     };
 
     projectFn();
+    addressFn();
 
 });

@@ -10,6 +10,8 @@ require.config({
 		"query" : "../util/query",
 		"prompt" : "../util/prompt",
 		"project" : "../module/project",
+		"file" : "../module/file",
+		"address" : "../module/address",
 		"index" : "../index"
 	},
 	shim : {

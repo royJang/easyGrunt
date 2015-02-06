@@ -1,0 +1,10 @@
+<div class="drives">
+	<ul>
+		<% for(var i=0,len=drive.length;i<len;i++){ %>
+		<li class="drivesItem" data-path='<%= drive[i] %>'>
+			<div class="icon-storage"></div>
+			<div class="driveName"><%= drive[i] %></div>
+		</li>
+		<% } %>
+	</ul>
+</div>

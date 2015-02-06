@@ -9,10 +9,10 @@ define('project', [ "underscore", "async" , "localforage", "prompt" ], function 
 
 	var defaultCallback = function ( err ){
 		if( err ){
-			prompt.show('ERROR:失败！');
+			prompt.show( 'ERROR:失败！' );
 			return false;
 		}
-		prompt.show('success！');
+		prompt.show( 'success！' );
 		return true;
 	};
 
@@ -26,26 +26,41 @@ define('project', [ "underscore", "async" , "localforage", "prompt" ], function 
 				return defaultCallback(err) && callback(err,data);
 			});
 		},
+		get : function ( name, callback ){
+			return storage.getItem( name, callback );
+		},
 		remove : function ( name, callback ){
-			return storage.removeItem( this.projectPack(name), function (err,data){
-				return defaultCallback(err) && callback(err,data);
+			var self = this;
+			this.getProjectActive(function ( err, chunk ){
+				if(chunk.name === name ) self.deleteProjectActive();
+				return storage.removeItem( self.projectPack(name), function (err,data){
+					return defaultCallback(err) && callback(err,data);
+				});
 			});
 		},
 		update : function ( name, data, callback ){
-			return storage.setItem( this.projectPack(name), data, function (err,data){
-				return defaultCallback(err) && callback(err,data);
+			var p = this.projectPack(name);
+			this.get(p, function ( err, chunk ){
+				var r = _.extend(chunk, data);
+				return storage.setItem( p, r, callback);
 			});
 		},
+		getProjectUrl : function ( name, callback ){
+			return storage.getItem( this.projectPack(name), function ( err, data ){
+				return callback( err, data.url );
+			})
+		},
 		getProjectLists : function ( callback ){
-			storage.keys(function ( err, data ){
-				return callback( err, data );
-			});
+			storage.keys(callback);
 		},
 		updateProjectActive : function ( name, callback ){
 			storage.setItem("EG-project-active", { "name" : name } ,callback);
 		},
 		getProjectActive : function ( callback ){
-			storage.getItem("EG-project-active",callback);
+			storage.getItem("EG-project-active", callback);
+		},
+		deleteProjectActive : function ( callback ){
+			storage.removeItem("EG-project-active", callback);
 		}
 	};
 

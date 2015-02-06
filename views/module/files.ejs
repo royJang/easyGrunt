@@ -1,0 +1,32 @@
+<div class="fileLS">
+	<div class="file-pre"><i class="icon-undo"></i></div>
+	<ul class="filesLists">
+		<script type="x-underscore/x-template" id="filesTemplate">
+			{% if( files && files.length > 0 ){  %}
+				{% files.forEach(function ( el, i, array ){ %}
+					{% if(el.indexOf("file!") > -1){ %}
+					<li data-path="{%= el %}">
+					{% }else{ %}
+					<li>
+					{% } %}
+						<div class="fileName">
+							{% if(el.indexOf("file!") > -1){ %}
+							<span class="icon-folder-open"></span>{%= el.replace("file!","") %}
+							{% }else if( /\.(html|htm|ejs|jsp|php|asp|cshtml|jade|xml|json)/i.test( el )){ %}
+							<span class="icon-file-xml"></span>{%= el %}
+							{% }else if ( /\.(css|less|sass|scss|js|coffee|dart)/i.test(el) ){ %}
+							<span class="icon-file-css"></span>{%= el %}
+							{% }else if ( /\.(png|jpg|jpeg|gif|bmp|tiff|psd)/i.test(el) ){ %}
+							<span class="icon-image"></span>{%= el %}
+							{% }else{ %}
+							<span class="icon-file"></span>{%= el %}
+							{% } %}
+						</div>
+						<div class="fileTasks">
+						</div>
+					</li>
+				{%})%}
+			{% } %}
+		</script>
+	</ul>
+</div>
