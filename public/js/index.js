@@ -6,14 +6,20 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
     var address = new Address();
     var prompt = new Prompt();
 
+    //@url : 文件路径
+    //根据@url 跳转至相应的文件路径
+    //如果没有默认的工作区域，默认跳转至C盘根目录
     var jump = function ( url ){
+       if( !url ) url = "C:/";
        address.set(url) && file.getFileList( url );
     };
 
-    //获取项目收藏的地址，直接跳转至工作目录
-    var jumpToProjectUrl = function (text){
-        project.getProjectUrl(text, function (err,a){
-            jump(a);
+    //@projectName : 項目名稱，
+    //拉取 @projectName 的工作區域Url,然後跳轉
+    var jumpToProjectUrl = function (projectName,callback){
+        project.getProjectUrl(projectName || null, function (err,a){
+            jump( a );
+            return callback && callback();
         });
     };
 
@@ -30,24 +36,30 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
     //绑定事件
     file.reBind();
 
+    /*
+    *   Address
+    */
+
     var addressFn = function (){
         $(".icon-heart2").on("click", function (){
             address.love(function (err,data){
-                if(err) return prompt.show("收藏失败..");
-                prompt.show("收藏成功！");
+                if(err) return prompt.show("工作區域更新失敗..");
+                address.loved() && prompt.show("工作區域更新成功!");
             });
         });
-        $(".icon-heart").on("click", function (){
-
-        });
     };
+
+
+    /*
+    *   Project
+    */
 
     var projectFn = function (){
         var projectEvents = function (){
             //移除项目
             $(".removeProject").off("click").on("click", function (){
                 var projectName = $(this).parent().find(".projectTitle").text();
-                if(confirm("确定删除 <"+ projectName +"> 吗？")){
+                if(confirm("您確定刪除 <"+ projectName +"> 嗎？")){
                     project.remove(projectName, function( err,data ){
                         if(!err) getProjectList();
                     });
@@ -62,7 +74,7 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
                 projectListItem.removeClass("active") && cel.addClass("active");
                 project.updateProjectActive(text, function (err,data){
                     if(err){
-                        prompt.show("获取项目详细信息失败!");
+                        prompt.show("獲取項目詳細信息失敗!");
                         cel.removeClass("active");
                         return;
                     }
@@ -85,13 +97,14 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
                     wrapper : v.projectLists
                 });
                 projectEvents();
+                result.active ? address.status() : jump();
             });
         };
         v.addProject.off("click").on("click", function (){
             var result = window.prompt("请输入新建项目名称：");
             if(result){
                 if( result.length === 0 ) result = "easy to Grunt";
-                project.create(result,function ( err,data) {
+                project.create(result, function ( err,data) {
                     if (!err) getProjectList(function (){});
                 });
             }

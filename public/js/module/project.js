@@ -46,9 +46,26 @@ define('project', [ "underscore", "async" , "localforage", "prompt" ], function 
 			});
 		},
 		getProjectUrl : function ( name, callback ){
-			return storage.getItem( this.projectPack(name), function ( err, data ){
-				return callback( err, data.url );
-			})
+			var self = this;
+			async.waterfall([
+				function (cb){
+					self.getProjectActive(function (err,data){
+						data ? cb( err, data.name ) : cb( err, null );
+					});
+				},
+				function ( args, cb ){
+					if( !args ){
+						cb( null, name);
+					}else{
+						cb( null, args );
+					}
+				},
+				function ( s, cb ){
+					self.get(self.projectPack(s), function (err,data){
+						data ? cb( err, data.url ) : cb( err, null );
+					});
+				}
+			],callback);
 		},
 		getProjectLists : function ( callback ){
 			storage.keys(callback);
