@@ -8,7 +8,7 @@ require.config({
 		"util" : "../util/util",
 		"variable" : "../util/variable",
 		"query" : "../util/query",
-		"prompt" : "../util/prompt",
+		"prompt" : "../util/formation/prompt",
 		"project" : "../module/project",
 		"file" : "../module/file",
 		"address" : "../module/address",

@@ -23,6 +23,8 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
         });
     };
 
+    jumpToProjectUrl();
+
     //地址栏按回车,跳转至响应目录
     $(document).on("keyup",function (e){
         if(e.which === 13) jump(address.get());
