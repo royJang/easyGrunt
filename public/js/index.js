@@ -1,10 +1,12 @@
-define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project', 'file', 'address', 'prompt' ], function ( jquery, _, async, Util, v, Project, File, Address, Prompt ){
+define("index", ['jQuery', 'underscore', 'async', 'util', 'variable', 'project', 'file', 'address', 'prompt', 'plugin' ],
+    function ( jquery, _, async, Util, v, Project, File, Address, Prompt, Plugin ){
 
     var util = new Util();
     var file = new File();
     var project = new Project();
     var address = new Address();
     var prompt = new Prompt();
+    var plugin = new Plugin();
 
     //@url : 文件路径
     //根据@url 跳转至相应的文件路径
@@ -17,7 +19,7 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
     //@projectName : 項目名稱，
     //拉取 @projectName 的工作區域Url,然後跳轉
     var jumpToProjectUrl = function (projectName,callback){
-        project.getProjectUrl(projectName || null, function (err,a){
+        project.getProjectUrl( projectName || null, function (err,a){
             jump( a );
             return callback && callback();
         });
@@ -115,7 +117,16 @@ define("index", ['jQuery', 'underscore', 'async' , 'util', 'variable', 'project'
         getProjectList();
     };
 
+    var pluginFn = function (){
+        $(".icon-powercord").on("click", function (){
+            plugin.show();
+        });
+        $(".icon-copy2").on("click", function (){
+
+        });
+    };
+
     projectFn();
     addressFn();
-
+    pluginFn();
 });

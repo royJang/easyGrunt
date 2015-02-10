@@ -1,10 +1,31 @@
 .pluginLayer{
-  .posr; height: 75vh; bottom:35px; top:0;
+  .posr; height: 65vh; bottom:35px; top:0; .yahei;
+
+  .pluginList {
+    padding:10px; height: 58vh; overflow-y:auto; overflow-x:hidden;
+    li {
+      line-height: 25px; font-size:16px; padding:10px;
+      &:nth-child(2n){
+        background: #eee;
+      }
+      i {
+        vertical-align: middle; margin-right:5px;
+      }
+      em {
+        font-size:12px; color:#ccc; float:right; margin-right:10px;
+      }
+    }
+  }
   .func {
     .posa; bottom:20px; left:50%; margin-left:-155px;
     ul {
       li {
         .fl;
+        &:nth-child(2) {
+          button {
+            background: @green5; border:1px solid @green5; color:#fff;
+          }
+        }
         button {
           width:150px; padding:10px 7px; margin-left:5px; border:1px solid #ccc; background: #fff;
           border-radius: 3px; font-size: 14px; .yahei;

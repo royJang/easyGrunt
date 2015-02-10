@@ -343,7 +343,7 @@ body {
 }
 .etg-nav .etg-project-list ul li span {
   float: right;
-  line-height: 17px;
+  line-height: 21px;
   font-size: 12px;
   display: none;
   background: #414247 !important;
@@ -380,7 +380,7 @@ body {
 }
 .etg-files-list .etg-files-nav ul.pathController,
 .etg-files-list .etg-files-nav ul.pluginList {
-  width: 70px;
+  width: 120px;
 }
 .etg-files-list .etg-files-nav ul.currentPathFrame {
   width: 75%;
@@ -410,6 +410,7 @@ body {
 }
 .etg-files-list .etg-files-nav ul li {
   float: left;
+  margin-right: 10px;
 }
 .etg-files-list .etg-files-nav ul li i,
 .etg-files-list .etg-files-nav ul li input {
@@ -483,18 +484,20 @@ body {
   color: #666;
 }
 .layer {
-  width: 80vw;
-  height: 80vh;
+  width: 60vw;
+  height: 70vh;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   position: fixed;
   margin: auto;
+  min-width: 800px;
   background: #fff;
   border-radius: 3px;
   box-shadow: 2px 1px 5px #666;
   font-family: \5FAE\8F6F\96C5\9ED1, serif, Arial;
+  display: none;
 }
 .layer .title {
   height: 5vh;
@@ -513,9 +516,34 @@ body {
 }
 .pluginLayer {
   position: relative;
-  height: 75vh;
+  height: 65vh;
   bottom: 35px;
   top: 0;
+  font-family: \5FAE\8F6F\96C5\9ED1, serif, Arial;
+}
+.pluginLayer .pluginList {
+  padding: 10px;
+  height: 58vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.pluginLayer .pluginList li {
+  line-height: 25px;
+  font-size: 16px;
+  padding: 10px;
+}
+.pluginLayer .pluginList li:nth-child(2n) {
+  background: #eee;
+}
+.pluginLayer .pluginList li i {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.pluginLayer .pluginList li em {
+  font-size: 12px;
+  color: #ccc;
+  float: right;
+  margin-right: 10px;
 }
 .pluginLayer .func {
   position: absolute;
@@ -525,6 +553,11 @@ body {
 }
 .pluginLayer .func ul li {
   float: left;
+}
+.pluginLayer .func ul li:nth-child(2) button {
+  background: #009966;
+  border: 1px solid #009966;
+  color: #fff;
 }
 .pluginLayer .func ul li button {
   width: 150px;

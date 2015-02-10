@@ -1,20 +1,28 @@
-<div class="layer">
+<div class="layer c-plugin">
     <div class="title">
         <span>插件管理</span>
-        <span class="close icon-close"></span>
+        <span class="close icon-close plugin-close"></span>
     </div>
     <div class="pluginLayer">
-        <ul>
-            <li>uglify</li>
-            <li>less</li>
-            <li>sass</li>
-            <li>requirejs</li>
-            <li>watch</li>
+        <ul class="pluginList">
+            {% list.forEach(function ( el, i ){ %}
+                <li>
+                    {% if( el.status ){ %}
+                        <i class="icon-checkbox-checked"></i>
+                    {% }else{ %}
+                        <i class="icon-checkbox-unchecked"></i>
+                    {% } %}
+                    <span>{%= el.name %}</span>
+                    <em class="introduce">
+                        {%= el.introduce  %}
+                    </em>
+                </li>
+            {% }) %}
         </ul>
         <div class="func">
             <ul>
-                <li><button>取消</button></li>
-                <li><button>保存</button></li>
+                <li><button class="plugin-cancel">cancel</button></li>
+                <li><button class="plugin-save">save</button></li>
             </ul>
         </div>
     </div>

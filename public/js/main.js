@@ -12,6 +12,9 @@ require.config({
 		"project" : "../module/project",
 		"file" : "../module/file",
 		"address" : "../module/address",
+		"plugin" : "../module/plugin",
+		"tasks" : "../module/tasks",
+		'plugin.data' : "../data/plugin.data",
 		"index" : "../index"
 	},
 	shim : {
