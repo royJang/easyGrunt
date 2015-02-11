@@ -1,12 +1,12 @@
 define("index", ['jQuery', 'underscore', 'async', 'util', 'variable', 'project', 'file', 'address', 'prompt', 'plugin' ],
     function ( jquery, _, async, Util, v, Project, File, Address, Prompt, Plugin ){
 
-    var util = new Util();
-    var file = new File();
-    var project = new Project();
-    var address = new Address();
-    var prompt = new Prompt();
-    var plugin = new Plugin();
+    var util = new Util(),
+        file = new File(),
+        project = new Project(),
+        address = new Address(),
+        prompt = new Prompt(),
+        plugin = new Plugin();
 
     //@url : 文件路径
     //根据@url 跳转至相应的文件路径
@@ -18,7 +18,7 @@ define("index", ['jQuery', 'underscore', 'async', 'util', 'variable', 'project',
 
     //@projectName : 項目名稱，
     //拉取 @projectName 的工作區域Url,然後跳轉
-    var jumpToProjectUrl = function (projectName,callback){
+    var jumpToProjectUrl = function ( projectName, callback ){
         project.getProjectUrl( projectName || null, function (err,a){
             jump( a );
             return callback && callback();
@@ -28,8 +28,8 @@ define("index", ['jQuery', 'underscore', 'async', 'util', 'variable', 'project',
     jumpToProjectUrl();
 
     //地址栏按回车,跳转至响应目录
-    $(document).on("keyup",function (e){
-        if(e.which === 13) jump(address.get());
+    $(document).on("keyup",function ( e ){
+        if( e.which === 13 ) jump(address.get());
     });
 
     //上一级按钮
@@ -83,6 +83,8 @@ define("index", ['jQuery', 'underscore', 'async', 'util', 'variable', 'project',
                         return;
                     }
                     jumpToProjectUrl(text);
+                    //项目切换bug,暂时用reload刷新解决
+                    location.reload();
                 });
             });
         };

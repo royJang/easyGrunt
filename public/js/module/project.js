@@ -44,7 +44,7 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 		},
 		update : function ( name, data, callback ){
 			var self = this;
-			this.getProjectActiveByProjectName( name, function ( s, cb ){
+			this.getFinalProjectActive( name, function ( s, cb ){
 				var p = self.projectPack( s );
 				self.get( p, function ( err, chunk ){
 					var r = _.extend( chunk, data );
@@ -63,7 +63,7 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 		//返回当前Project的工作目录
 		getProjectUrl : function ( name, callback ){
 			var self = this;
-			this.getProjectActiveByProjectName( name, function ( s, cb ){
+			this.getFinalProjectActive( name, function ( s, cb ){
 				self.get( self.projectPack( s ), function (err,data){
 					data ? cb( err, data.url ) : cb( err, null );
 				});
@@ -72,10 +72,10 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 		//返回当前Project的grunt插件列表及状态
 		getProjectPlugin : function ( name, callback ){
 			var self = this;
-			this.getProjectActiveByProjectName( name, function ( s, cb ){
+			this.getFinalProjectActive( name, function ( s, cb ){
 				var plugins = {};
 				self.get( self.projectPack( s ), function (err,data){
-					Object.keys(data).forEach(function ( el ){
+					Object.keys( data ).forEach(function ( el ){
 						if( el.indexOf("grunt-") > -1 ){
 							plugins[ el ] = data[ el ];
 						}
@@ -86,7 +86,7 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 		},
 		//返回选中状态的grunt插件列表
 		getProjectPluginWithChecked : function ( name, callback ){
-			this.getProjectActiveByProjectName( name, function ( s, cb ){
+			this.getFinalProjectActive( name, function ( s, cb ){
 				var plugins = {};
 				self.get( self.projectPack( s ), function (err,data){
 					Object.keys(data).forEach(function ( el ){
@@ -112,7 +112,7 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 		},
 		//通过projectName查询当前为active状态的project
 		//name为空时，默认取当前active状态的project
-		getProjectActiveByProjectName : function ( name, fn, callback ){
+		getFinalProjectActive : function ( name, fn, callback ){
 			var self = this;
 			async.waterfall([
 				function ( cb ){
@@ -130,6 +130,6 @@ define('project', [ "underscore", "async" , "localforage", "prompt", "plugin.dat
 			storage.removeItem("EG-project-active", callback);
 		}
 	};
-
+    
 	return Project;
 });

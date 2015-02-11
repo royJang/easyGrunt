@@ -1,5 +1,5 @@
-define('plugin', [ 'plugin.data', 'util', 'async', 'project', 'prompt' ],
-	function ( data, Util, async, Project, Prompt ){
+define('plugin', [ 'underscore', 'plugin.data', 'util', 'async', 'project', 'prompt' ],
+	function ( _, source, Util, async, Project, Prompt ){
 
 	var util = new Util();
 	var project = new Project();
@@ -12,23 +12,24 @@ define('plugin', [ 'plugin.data', 'util', 'async', 'project', 'prompt' ],
 	Plugin.prototype = {
 		constructor : Plugin,
 		init : function (){
-			this.renderTemplate();
 		},
-		renderTemplate : function (){
+		renderTemplate : function ( callback ){
 			var self = this;
 			project.getProjectPlugin( null, function ( d ){
-				data.forEach(function (el,i){
+				source.forEach(function (el,i){
 					el["status"] = d[Object.keys(d)[i]];
 				});
-				self.w = util.renderTemplate({
-					template : $(".etg-layer-plugin").html(),
-					wrapper : $(".etg-layer-plugin"),
-					method : "html",
-					data : {
-						"list" : data
-					}
-				}).find(".layer");
-				self.events();
+                
+                var wrapper = $(".etg-layer-plugin"),
+                    $temp = wrapper.html(),
+                    render = _.template( $temp ),
+                    r = render({ "list" : source });
+                
+                wrapper.html(r);
+                self.w = wrapper.find(".layer");
+				
+                self.events();
+                return callback && callback();
 			});
 		},
 		events : function (){
@@ -43,17 +44,20 @@ define('plugin', [ 'plugin.data', 'util', 'async', 'project', 'prompt' ],
 			});
 			$(".pluginLayer .pluginList").find("li i").on("click", function (){
 				var b = $(this).hasClass(unChecked),
-					l = function (n){
-						return (n ? b : !b) ? unChecked : checked;
+					l = function ( n ){
+						return ( n ? b : !b ) ? unChecked : checked;
 					};
 				$(this).removeClass(l(true)).addClass(l());
 			});
 		},
 		show : function (){
-			this.w.slideDown();
+            var self = this;
+            this.renderTemplate(function (){
+                self.w.slideDown();
+            });
 		},
 		hide : function (){
-			this.w.slideUp();
+            this.w.slideUp();
 		},
 		save : function (){
 			var data = {};

@@ -468,6 +468,14 @@ body {
 .etg-files-list .fileLS .filesLists li:nth-child(2n) {
   background: #e3e3e3;
 }
+.etg-files-list .fileLS .filesLists li div {
+  float: left;
+}
+.etg-files-list .fileLS .filesLists li div input[type="checkbox"] {
+  vertical-align: -2px;
+  width: 15px;
+  height: 15px;
+}
 .etg-files-list .fileLS .filesLists li .fileName,
 .etg-files-list .fileLS .filesLists li .fileTasks {
   width: 50%;
@@ -482,6 +490,18 @@ body {
 .etg-files-list .fileLS .filesLists li span {
   padding: 10px;
   color: #666;
+}
+.etg-files-list .fileLS .addTasksBtnWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.etg-files-list .fileLS .addTasksBtnWrapper ul li {
+  padding: 10px;
+  background: #336699;
+  color: #fff;
+  float: left;
+  border-left: 1px solid #fff;
 }
 .layer {
   width: 60vw;
